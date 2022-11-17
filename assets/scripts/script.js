@@ -4,10 +4,11 @@
 var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+var todaysDate = $("#currentDay");
+var saveBtns = $(".saveBtn");
+var timeBlocks = $(".time-block");
+
 $(function () {
-  var todaysDate = $("#currentDay");
-  var saveBtns = $(".saveBtn");
-  var timeBlocks = $(".time-block");
   // Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -15,6 +16,7 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   saveBtns.on("click", saveText);
+
   function saveText() {
     var userInput = $(this).siblings("textarea").val();
     var inputHour = $(this).parents(".time-block").prop("id");
@@ -27,6 +29,7 @@ $(function () {
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
   var hour = dayjs().hour();
+
   for (var i = 0; i < timeBlocks.length; i++) {
     // comparing id number to time hour
     var timeBlock = parseInt($(timeBlocks[i]).prop("id").replace("hour-", ""));
@@ -51,11 +54,11 @@ $(function () {
     // comparing id number to time hour
     var hourId = $(timeBlocks[i]).prop("id");
     var text = localStorage.getItem(hourId);
-    $(timeBlocks[i]).children("textarea").val(text); 
+    $(timeBlocks[i]).children("textarea").val(text);
   }
   // Add code to display the current date in the header of the page.
-  var dayName = dayjs().day();
-  var month = dayjs().month();
-  var dayNum = dayjs().date();
-  todaysDate.text(daysOfWeek[dayName] + ", " + months[month] + " " + dayNum);
+  var dayName = dayjs().format("dddd");
+  var month = dayjs().format("MMMM");
+  var dayNum = dayjs().format("D");
+  todaysDate.text(dayName + ", " + month + " " + dayNum);
 });
